@@ -7,6 +7,16 @@ if [ ! -f "$STATE_FILE" ]; then
     exit 1
 fi
 
-rm "$STATE_FILE"
+INCIDENT_NAME=$(cat "$STATE_FILE")
 
-echo "Incident cleared."
+META_FILE="incidents/${INCIDENT_NAME}.meta"
+
+source "$META_FILE"
+
+echo "INCIDENT REVIEW"
+echo
+echo "ID: $ID"
+echo "TITLE: $TITLE"
+echo "ROOT CAUSE: $ROOT_CAUSE"
+
+rm "$STATE_FILE"

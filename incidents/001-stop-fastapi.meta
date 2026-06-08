@@ -1,0 +1,7 @@
+ID="001"
+TITLE="FastAPI Service Stopped"
+DIFFICULTY="Easy"
+TICKET="Users report 502 Bad Gateway responses."
+ROOT_CAUSE="FastAPI service stopped running"
+EXPECTED_FINDINGS="*"
+EXPECTED_COMMANDS="*"

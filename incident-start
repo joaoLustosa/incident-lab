@@ -9,5 +9,14 @@ if [ -f "$STATE_FILE" ]; then
     exit 1
 fi
 
-echo "TEST" > "$STATE_FILE"
+INCIDENT_NAME="001-stop-fastapi"
+
+echo "$INCIDENT_NAME" > "$STATE_FILE"
+
+META_FILE="incidents/${INCIDENT_NAME}.meta"
+
+source "$META_FILE"
+
 echo "Incident created."
+echo
+echo "TICKET: $TICKET"
