@@ -1,0 +1,12 @@
+#!/bin/bash
+
+STATE_FILE="incident-state/current-incident"
+
+if [ ! -f "$STATE_FILE" ]; then
+    echo "No active incident."
+    exit 1
+fi
+
+rm "$STATE_FILE"
+
+echo "Incident cleared."

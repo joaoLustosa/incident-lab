@@ -1,0 +1,12 @@
+#!/bin/bash
+
+STATE_FILE="incident-state/current-incident"
+
+if [ -f "$STATE_FILE" ]; then
+    echo "ERROR: Active incident detected."
+    echo
+    echo "Run incident-reveal before starting a new incident."
+    exit 1
+fi
+
+echo "LOCK TEST"
