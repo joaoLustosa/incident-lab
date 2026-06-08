@@ -1,0 +1,9 @@
+# Incident runtime state
+incident-state/current-incident
+
+# Editor files
+*.swp
+*~
+
+# OS files
+.DS_Store
