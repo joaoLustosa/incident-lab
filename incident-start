@@ -9,4 +9,5 @@ if [ -f "$STATE_FILE" ]; then
     exit 1
 fi
 
-echo "LOCK TEST"
+echo "TEST" > "$STATE_FILE"
+echo "Incident created."
