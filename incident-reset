@@ -1,0 +1,61 @@
+#!/bin/bash
+
+STATE_FILE="incident-state/current-incident"
+
+echo "Restoring Nginx configuration..."
+
+sudo cp baseline/nginx/default \
+        /etc/nginx/sites-available/default
+
+if ! sudo nginx -t; then
+    echo "ERROR: Nginx configuration validation failed."
+    exit 1
+fi
+
+echo "Restarting services..."
+
+if ! sudo systemctl restart nginx; then
+    echo "ERROR: Nginx service start failed."
+    exit 1
+fi
+
+if ! sudo systemctl restart fastapi; then
+    echo "ERROR: FastAPI service start failed."
+    exit 1
+fi
+
+sleep 2
+
+echo "Verifying system health..."
+
+if ! systemctl is-active --quiet nginx; then
+    echo "ERROR: Environment reset failed."
+    echo
+    echo "Cause: Nginx service is not running."
+    echo
+    echo "Manual intervention required."
+    exit 1
+fi
+
+if ! systemctl is-active --quiet fastapi; then
+    echo "ERROR: Environment reset failed."
+    echo
+    echo "Cause: FastAPI service is not running."
+    echo
+    echo "Manual intervention required."
+    exit 1
+fi
+
+if ! curl -fs http://localhost > /dev/null; then
+    echo "ERROR: Environment reset failed."
+    echo
+    echo "Cause: Localhost returns error."
+    echo
+    echo "Manual intervention required."
+    exit 1
+fi
+
+rm -f "$STATE_FILE"
+
+echo "Baseline state restored."
+

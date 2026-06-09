@@ -18,5 +18,3 @@ echo
 echo "ID: $ID"
 echo "TITLE: $TITLE"
 echo "ROOT CAUSE: $ROOT_CAUSE"
-
-rm "$STATE_FILE"
