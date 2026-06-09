@@ -10,10 +10,25 @@ if [ -f "$STATE_FILE" ]; then
 fi
 
 INCIDENT_NAME="001-stop-fastapi"
+SCRIPT_FILE="incidents/${INCIDENT_NAME}.sh"
+META_FILE="incidents/${INCIDENT_NAME}.meta"
+
+if [ ! -f "$SCRIPT_FILE" ]; then
+    echo "ERROR: Incident script not found."
+    exit 1
+fi
+
+if [ ! -f "$META_FILE" ]; then
+    echo "ERROR: Incident metadata not found."
+    exit 1
+fi
+
+if ! bash "$SCRIPT_FILE"; then
+    echo "ERROR: Incident injection failed."
+    exit 1
+fi
 
 echo "$INCIDENT_NAME" > "$STATE_FILE"
-
-META_FILE="incidents/${INCIDENT_NAME}.meta"
 
 source "$META_FILE"
 
