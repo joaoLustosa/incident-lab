@@ -9,7 +9,7 @@ if [ -f "$STATE_FILE" ]; then
     exit 1
 fi
 
-INCIDENT_NAME="001-stop-fastapi"
+INCIDENT_NAME="002-stop-nginx"
 SCRIPT_FILE="incidents/${INCIDENT_NAME}/incident.sh"
 META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
 

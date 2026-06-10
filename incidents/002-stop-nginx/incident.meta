@@ -1,0 +1,21 @@
+ID="002"
+TITLE="Nginx Service Stopped"
+DIFFICULTY="Easy"
+
+TICKET="Users report the website is unavailable."
+
+ROOT_CAUSE="Nginx service is not running"
+
+EXPECTED_FINDINGS="
+nginx inactive
+fastapi active
+connection refused on port 80
+curl localhost fails at proxy layer
+"
+
+EXPECTED_COMMANDS="
+systemctl status nginx
+journalctl -u nginx
+systemctl is-active nginx
+curl http://localhost
+"
