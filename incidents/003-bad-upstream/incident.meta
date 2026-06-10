@@ -1,0 +1,24 @@
+ID="003"
+TITLE="Incorrect Nginx Upstream"
+DIFFICULTY="Medium"
+
+TICKET="Users report 502 Bad Gateway responses."
+
+ROOT_CAUSE="Nginx is configured to proxy requests to the wrong upstream port."
+
+EXPECTED_FINDINGS="
+- nginx service active
+- fastapi service active
+- localhost returns 502 Bad Gateway
+- nginx configuration validates successfully
+- nginx error log shows upstream connection failures
+"
+
+EXPECTED_COMMANDS="
+- curl http://localhost
+- systemctl status nginx
+- systemctl status fastapi
+- nginx -t
+- journalctl -u nginx
+- cat /etc/nginx/sites-available/default
+"

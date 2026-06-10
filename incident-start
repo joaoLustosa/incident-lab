@@ -9,7 +9,7 @@ if [ -f "$STATE_FILE" ]; then
     exit 1
 fi
 
-INCIDENT_NAME="002-stop-nginx"
+INCIDENT_NAME="003-bad-upstream"
 SCRIPT_FILE="incidents/${INCIDENT_NAME}/incident.sh"
 META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
 
