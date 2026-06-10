@@ -24,9 +24,9 @@ if ! sudo systemctl restart fastapi; then
     exit 1
 fi
 
-sleep 2
-
 echo "Verifying system health..."
+
+sleep 2
 
 if ! systemctl is-active --quiet nginx; then
     echo "ERROR: Environment reset failed."
