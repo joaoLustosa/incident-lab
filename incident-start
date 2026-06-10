@@ -10,8 +10,8 @@ if [ -f "$STATE_FILE" ]; then
 fi
 
 INCIDENT_NAME="001-stop-fastapi"
-SCRIPT_FILE="incidents/${INCIDENT_NAME}.sh"
-META_FILE="incidents/${INCIDENT_NAME}.meta"
+SCRIPT_FILE="incidents/${INCIDENT_NAME}/incident.sh"
+META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
 
 if [ ! -f "$SCRIPT_FILE" ]; then
     echo "ERROR: Incident script not found."

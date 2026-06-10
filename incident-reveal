@@ -9,7 +9,7 @@ fi
 
 INCIDENT_NAME=$(cat "$STATE_FILE")
 
-META_FILE="incidents/${INCIDENT_NAME}.meta"
+META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
 
 source "$META_FILE"
 
