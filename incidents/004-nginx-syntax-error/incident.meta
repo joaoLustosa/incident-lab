@@ -1,0 +1,21 @@
+ID="004"
+TITLE="Nginx Syntax Error"
+DIFFICULTY="Medium"
+
+TICKET="Users report the website is unavailable."
+
+ROOT_CAUSE="Nginx configuration contains a syntax error."
+
+EXPECTED_FINDINGS="
+- nginx service inactive or failed
+- fastapi service active
+- nginx configuration validation fails
+- nginx error output identifies configuration problem
+"
+
+EXPECTED_COMMANDS="
+- systemctl status nginx
+- journalctl -u nginx
+- nginx -t
+- cat /etc/nginx/sites-available/default
+"
