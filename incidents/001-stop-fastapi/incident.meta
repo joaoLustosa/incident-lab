@@ -1,7 +1,22 @@
 ID="001"
 TITLE="FastAPI Service Stopped"
 DIFFICULTY="Easy"
+
 TICKET="Users report 502 Bad Gateway responses."
-ROOT_CAUSE="FastAPI service stopped running"
-EXPECTED_FINDINGS="*"
-EXPECTED_COMMANDS="*"
+
+ROOT_CAUSE="FastAPI service is stopped."
+
+EXPECTED_FINDINGS="
+- fastapi service inactive
+- nginx service active
+- localhost returns 502 Bad Gateway
+- nginx error log contains upstream connection failures
+"
+
+EXPECTED_COMMANDS="
+- systemctl status fastapi
+- systemctl is-active fastapi
+- journalctl -u fastapi
+- systemctl status nginx
+- curl http://localhost
+"
