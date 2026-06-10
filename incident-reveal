@@ -11,7 +11,10 @@ INCIDENT_NAME=$(cat "$STATE_FILE")
 
 META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
 
-source "$META_FILE"
+if ! source "$META_FILE"; then
+    echo "ERROR: Metadata loading failed."
+    exit 1
+fi
 
 echo "INCIDENT REVIEW"
 echo
