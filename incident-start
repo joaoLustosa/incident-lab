@@ -9,7 +9,10 @@ if [ -f "$STATE_FILE" ]; then
     exit 1
 fi
 
-INCIDENT_NAME="004-nginx-syntax-error"
+INCIDENT_NAME=$(find incidents -mindepth 1 -maxdepth 1 -type d \
+    | shuf -n 1 \
+    | xargs basename)
+
 SCRIPT_FILE="incidents/${INCIDENT_NAME}/incident.sh"
 META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
 
