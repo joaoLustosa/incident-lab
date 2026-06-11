@@ -15,6 +15,7 @@ fi
 echo "Restarting services..."
 
 sudo systemctl reset-failed nginx
+sudo systemctl reset-failed fastapi
 
 if ! sudo systemctl restart nginx; then
     echo "ERROR: Nginx service start failed."
