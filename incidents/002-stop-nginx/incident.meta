@@ -4,18 +4,19 @@ DIFFICULTY="Easy"
 
 TICKET="Users report the website is unavailable."
 
-ROOT_CAUSE="Nginx service is not running"
+ROOT_CAUSE="Nginx service is stopped."
 
 EXPECTED_FINDINGS="
-nginx inactive
-fastapi active
-connection refused on port 80
-curl localhost fails at proxy layer
+- nginx service inactive
+- fastapi service active
+- localhost connection fails
+- port 80 is not listening
 "
 
 EXPECTED_COMMANDS="
-systemctl status nginx
-journalctl -u nginx
-systemctl is-active nginx
-curl http://localhost
+- systemctl status nginx
+- systemctl is-active nginx
+- journalctl -u nginx
+- curl http://localhost
+- ss -tlnp
 "
