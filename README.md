@@ -65,6 +65,31 @@ Components:
 The small environment allows users to focus on troubleshooting fundamentals rather than infrastructure complexity.
 
 ---
+## Demo
+
+Terminal recording:
+
+https://asciinema.org/a/0ETbpW4vQ36xKYkI
+
+Example workflow:
+
+```text
+Healthy Environment
+       ↓
+Inject Random Incident
+       ↓
+Display Ticket
+       ↓
+User Investigation
+       ↓
+Incident Review
+       ↓
+Environment Recovery
+       ↓
+Health Verification
+```
+
+---
 
 ## Incident Workflow
 
