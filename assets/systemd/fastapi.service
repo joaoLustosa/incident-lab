@@ -1,0 +1,14 @@
+[Unit]
+Description=Incident Lab FastAPI Service
+After=network.target
+
+[Service]
+User=incident-lab
+WorkingDirectory=/opt/incident-lab/app
+
+ExecStart=/opt/incident-lab/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
