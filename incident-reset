@@ -36,28 +36,9 @@ echo "Verifying system health..."
 
 sleep 2
 
-if ! systemctl is-active --quiet nginx; then
+if ! ./healthcheck.sh; then
+    echo
     echo "ERROR: Environment reset failed."
-    echo
-    echo "Cause: Nginx service is not running."
-    echo
-    echo "Manual intervention required."
-    exit 1
-fi
-
-if ! systemctl is-active --quiet fastapi; then
-    echo "ERROR: Environment reset failed."
-    echo
-    echo "Cause: FastAPI service is not running."
-    echo
-    echo "Manual intervention required."
-    exit 1
-fi
-
-if ! curl -fs http://localhost > /dev/null; then
-    echo "ERROR: Environment reset failed."
-    echo
-    echo "Cause: Localhost returns error."
     echo
     echo "Manual intervention required."
     exit 1

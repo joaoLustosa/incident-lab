@@ -107,10 +107,7 @@ sleep 3
 
 echo "Running health checks..."
 
-systemctl is-active --quiet fastapi
-systemctl is-active --quiet nginx
-
-curl --fail --silent http://localhost >/dev/null
+./healthcheck.sh
 
 echo
 echo "Incident Lab installation complete."
