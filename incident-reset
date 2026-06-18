@@ -1,28 +1,33 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]; then
+    echo "ERROR: Run as root."
+    exit 1
+fi
+
 STATE_FILE="incident-state/current-incident"
 
 echo "Restoring Nginx configuration..."
 
-sudo cp baseline/nginx/default \
-        /etc/nginx/sites-available/default
+cp baseline/nginx/default \
+   /etc/nginx/sites-available/default
 
-if ! sudo nginx -t; then
+if ! nginx -t; then
     echo "ERROR: Nginx configuration validation failed."
     exit 1
 fi
 
 echo "Restarting services..."
 
-sudo systemctl reset-failed nginx
-sudo systemctl reset-failed fastapi
+systemctl reset-failed nginx
+systemctl reset-failed fastapi
 
-if ! sudo systemctl restart nginx; then
+if ! systemctl restart nginx; then
     echo "ERROR: Nginx service start failed."
     exit 1
 fi
 
-if ! sudo systemctl restart fastapi; then
+if ! systemctl restart fastapi; then
     echo "ERROR: FastAPI service start failed."
     exit 1
 fi

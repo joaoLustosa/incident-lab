@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo systemctl stop fastapi
+systemctl stop fastapi

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]; then
+    echo "ERROR: Run as root."
+    exit 1
+fi
+
 STATE_FILE="incident-state/current-incident"
 
 if [ -f "$STATE_FILE" ]; then
