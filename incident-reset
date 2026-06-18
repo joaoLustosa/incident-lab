@@ -7,10 +7,31 @@ fi
 
 STATE_FILE="incident-state/current-incident"
 
+echo "Restoring application files..."
+
+cp assets/app/main.py \
+   /opt/incident-lab/app/main.py
+
+chown incident-lab:incident-lab \
+   /opt/incident-lab/app/main.py
+
+echo "Restoring systemd service..."
+
+cp assets/systemd/fastapi.service \
+   /etc/systemd/system/fastapi.service
+
+systemctl daemon-reload
+
 echo "Restoring Nginx configuration..."
 
-cp baseline/nginx/default \
-   /etc/nginx/sites-available/default
+cp assets/nginx/incident-lab.conf \
+   /etc/nginx/sites-available/incident-lab.conf
+
+rm -f /etc/nginx/sites-enabled/incident-lab.conf
+
+ln -sf \
+   /etc/nginx/sites-available/incident-lab.conf \
+   /etc/nginx/sites-enabled/incident-lab.conf
 
 if ! nginx -t; then
     echo "ERROR: Nginx configuration validation failed."
@@ -46,5 +67,5 @@ fi
 
 rm -f "$STATE_FILE"
 
-echo "Baseline state restored."
-
+echo
+echo "Environment restored successfully."
