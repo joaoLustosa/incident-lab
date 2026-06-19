@@ -101,6 +101,46 @@ cp baseline/systemd/fastapi.service \
 chown -R incident-lab:incident-lab \
     /opt/incident-lab/baseline
 
+echo "[7.4/10] Deploying operational scripts..."
+
+cp incident-start \
+    /opt/incident-lab/incident-start
+
+cp incident-reset \
+    /opt/incident-lab/incident-reset
+
+cp incident-reveal \
+    /opt/incident-lab/incident-reveal
+
+cp healthcheck.sh \
+    /opt/incident-lab/healthcheck.sh
+
+chmod +x \
+    /opt/incident-lab/incident-start \
+    /opt/incident-lab/incident-reset \
+    /opt/incident-lab/incident-reveal \
+    /opt/incident-lab/healthcheck.sh
+
+chown incident-lab:incident-lab \
+    /opt/incident-lab/incident-start \
+    /opt/incident-lab/incident-reset \
+    /opt/incident-lab/incident-reveal \
+    /opt/incident-lab/healthcheck.sh
+
+echo "[7.5/10] Creating command symlinks..."
+
+ln -sf \
+    /opt/incident-lab/incident-start \
+    /usr/local/bin/incident-start
+
+ln -sf \
+    /opt/incident-lab/incident-reset \
+    /usr/local/bin/incident-reset
+
+ln -sf \
+    /opt/incident-lab/incident-reveal \
+    /usr/local/bin/incident-reveal
+
 echo "[8/10] Deploying systemd service..."
 
 cp baseline/systemd/fastapi.service \
@@ -134,7 +174,7 @@ sleep 3
 
 echo "Running health checks..."
 
-./healthcheck.sh
+bash /opt/incident-lab/healthcheck.sh
 
 echo
 echo "Incident Lab installation complete."
