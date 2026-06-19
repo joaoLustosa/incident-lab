@@ -66,13 +66,31 @@ runuser -u incident-lab -- \
     fastapi \
     uvicorn
 
-echo "[7/10] Deploying application..."
+echo "[7.1/10] Deploying application..."
 
 cp assets/app/main.py \
     /opt/incident-lab/app/main.py
 
 chown incident-lab:incident-lab \
     /opt/incident-lab/app/main.py
+
+echo "[7.2/10] Deploying incident catalog..."
+
+cp -r incidents/* \
+    /opt/incident-lab/incidents/
+
+chown -R incident-lab:incident-lab \
+    /opt/incident-lab/incidents
+
+echo "[7.3/10] Deploying baseline files..."
+
+mkdir -p /opt/incident-lab/baseline/nginx
+
+cp baseline/nginx/default \
+    /opt/incident-lab/baseline/nginx/default
+
+chown -R incident-lab:incident-lab \
+    /opt/incident-lab/baseline
 
 echo "[8/10] Deploying systemd service..."
 
