@@ -1,6 +1,8 @@
 #!/bin/bash
 
-STATE_FILE="incident-state/current-incident"
+LAB_ROOT="/opt/incident-lab"
+
+STATE_FILE="$LAB_ROOT/incident-state/current-incident"
 
 if [ ! -f "$STATE_FILE" ]; then
     echo "No active incident."
@@ -9,7 +11,7 @@ fi
 
 INCIDENT_NAME=$(cat "$STATE_FILE")
 
-META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
+META_FILE="$LAB_ROOT/incidents/${INCIDENT_NAME}/incident.meta"
 
 if ! source "$META_FILE"; then
     echo "ERROR: Metadata loading failed."

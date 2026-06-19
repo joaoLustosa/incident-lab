@@ -68,7 +68,7 @@ runuser -u incident-lab -- \
 
 echo "[7.1/10] Deploying application..."
 
-cp assets/app/main.py \
+cp baseline/app/main.py \
     /opt/incident-lab/app/main.py
 
 chown incident-lab:incident-lab \
@@ -84,17 +84,26 @@ chown -R incident-lab:incident-lab \
 
 echo "[7.3/10] Deploying baseline files..."
 
-mkdir -p /opt/incident-lab/baseline/nginx
+mkdir -p \
+    /opt/incident-lab/baseline/app \
+    /opt/incident-lab/baseline/nginx \
+    /opt/incident-lab/baseline/systemd
 
-cp baseline/nginx/default \
-    /opt/incident-lab/baseline/nginx/default
+cp baseline/app/main.py \
+    /opt/incident-lab/baseline/app/main.py
+
+cp baseline/nginx/incident-lab.conf \
+    /opt/incident-lab/baseline/nginx/incident-lab.conf
+
+cp baseline/systemd/fastapi.service \
+    /opt/incident-lab/baseline/systemd/fastapi.service
 
 chown -R incident-lab:incident-lab \
     /opt/incident-lab/baseline
 
 echo "[8/10] Deploying systemd service..."
 
-cp assets/systemd/fastapi.service \
+cp baseline/systemd/fastapi.service \
     /etc/systemd/system/fastapi.service
 
 systemctl daemon-reload
@@ -103,7 +112,7 @@ systemctl enable fastapi
 
 echo "[9/10] Deploying nginx configuration..."
 
-cp assets/nginx/incident-lab.conf \
+cp baseline/nginx/incident-lab.conf \
     /etc/nginx/sites-available/incident-lab.conf
 
 rm -f /etc/nginx/sites-enabled/default

@@ -5,7 +5,10 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-STATE_FILE="incident-state/current-incident"
+LAB_ROOT="/opt/incident-lab"
+
+STATE_FILE="$LAB_ROOT/incident-state/current-incident"
+INCIDENT_DIR="$LAB_ROOT/incidents"
 
 if [ -f "$STATE_FILE" ]; then
     echo "ERROR: Active incident detected."
@@ -14,12 +17,17 @@ if [ -f "$STATE_FILE" ]; then
     exit 1
 fi
 
-INCIDENT_NAME=$(find incidents -mindepth 1 -maxdepth 1 -type d \
-    | shuf -n 1 \
-    | xargs basename)
+INCIDENT_NAME=$(
+    find "$INCIDENT_DIR" \
+        -mindepth 1 \
+        -maxdepth 1 \
+        -type d |
+    shuf -n 1 |
+    xargs basename
+)
 
-SCRIPT_FILE="incidents/${INCIDENT_NAME}/incident.sh"
-META_FILE="incidents/${INCIDENT_NAME}/incident.meta"
+SCRIPT_FILE="$INCIDENT_DIR/${INCIDENT_NAME}/incident.sh"
+META_FILE="$INCIDENT_DIR/${INCIDENT_NAME}/incident.meta"
 
 if [ ! -f "$SCRIPT_FILE" ]; then
     echo "ERROR: Incident script not found."

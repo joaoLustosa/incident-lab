@@ -5,26 +5,28 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-STATE_FILE="incident-state/current-incident"
+LAB_ROOT="/opt/incident-lab"
+
+STATE_FILE="$LAB_ROOT/incident-state/current-incident"
 
 echo "Restoring application files..."
 
-cp assets/app/main.py \
-   /opt/incident-lab/app/main.py
+cp "$LAB_ROOT/baseline/app/main.py" \
+   "$LAB_ROOT/app/main.py"
 
 chown incident-lab:incident-lab \
-   /opt/incident-lab/app/main.py
+   "$LAB_ROOT/app/main.py"
 
 echo "Restoring systemd service..."
 
-cp assets/systemd/fastapi.service \
+cp "$LAB_ROOT/baseline/systemd/fastapi.service" \
    /etc/systemd/system/fastapi.service
 
 systemctl daemon-reload
 
 echo "Restoring Nginx configuration..."
 
-cp assets/nginx/incident-lab.conf \
+cp "$LAB_ROOT/baseline/nginx/incident-lab.conf" \
    /etc/nginx/sites-available/incident-lab.conf
 
 rm -f /etc/nginx/sites-enabled/incident-lab.conf
@@ -57,7 +59,7 @@ echo "Verifying system health..."
 
 sleep 2
 
-if ! ./healthcheck.sh; then
+if ! healthcheck.sh; then
     echo
     echo "ERROR: Environment reset failed."
     echo
