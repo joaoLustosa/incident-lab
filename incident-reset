@@ -59,7 +59,7 @@ echo "Verifying system health..."
 
 sleep 2
 
-if ! healthcheck.sh; then
+if ! bash "$LAB_ROOT/healthcheck.sh"; then
     echo
     echo "ERROR: Environment reset failed."
     echo
