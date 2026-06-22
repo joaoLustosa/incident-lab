@@ -1,93 +1,141 @@
 # Incident Lab
 
-Incident Lab is a lightweight infrastructure incident response and troubleshooting training platform.
+Incident Lab is a lightweight infrastructure troubleshooting platform that injects controlled failures into a Linux environment and challenges users to diagnose and restore service.
 
-The project intentionally injects faults into a functioning Linux environment and presents the user with a service ticket. The user must investigate the environment, identify the root cause, restore service, and review the incident.
+The platform provides repeatable incident-response exercises focused on service recovery, root cause analysis, and operational troubleshooting using standard Linux administration tools.
 
-Unlike deployment-focused homelabs, Incident Lab focuses on operational troubleshooting, evidence gathering, service recovery, and root cause analysis using standard Linux administration tools.
-
-Version 1 intentionally remains small and constrained in order to validate the core troubleshooting loop before expanding into observability, centralized logging, containerization, and more advanced failure scenarios.
+Incident Lab manages its own application, service configuration, incident catalog, recovery assets, and runtime state, allowing users to install a fully functional troubleshooting environment on a clean Debian system.
 
 ---
 
 ## Safety Notice
 
-Incident Lab is intended for disposable lab environments only.
+Incident Lab intentionally modifies services and configuration files managed by the platform.
 
-The project intentionally modifies service state and configuration files managed by the lab environment.
+Use only in disposable lab environments.
 
-Do not run Incident Lab on production systems or on machines hosting important workloads.
-
----
-
-## Learning Objectives
-
-Incident Lab provides hands-on practice with:
-
-* Linux service troubleshooting
-* systemd operations
-* Log analysis
-* Configuration validation
-* Reverse proxy troubleshooting
-* Root cause analysis
-* Service recovery
-
-The project is primarily aimed at:
-
-* Students learning Linux administration
-* Junior infrastructure engineers
-* Junior DevOps engineers
-* SRE candidates
-* Anyone seeking practical troubleshooting experience
+Do not install on production systems or systems hosting important workloads.
 
 ---
 
-## Environment Architecture
-
-Version 1 uses a deliberately simple environment:
+## Architecture
 
 ```text
 User
- ↓
+  ↓
 Nginx
- ↓
+  ↓
 FastAPI
 ```
 
 Components:
 
-* Debian 13
-* Nginx
-* FastAPI
-* Uvicorn
-* systemd
-
-The small environment allows users to focus on troubleshooting fundamentals rather than infrastructure complexity.
+- Debian 13
+- Nginx
+- FastAPI
+- Uvicorn
+- systemd
 
 ---
+
 ## Demo
 
 Terminal recording:
 
 https://asciinema.org/a/0ETbpW4vQ36xKYkI
 
-Example workflow:
+---
+
+## Installation
+
+Clone the repository and run the installer:
+
+```bash
+git clone https://github.com/joaoLustosa/incident-lab.git
+
+cd incident-lab
+
+sudo ./install.sh
+```
+
+The installer automatically:
+
+- Installs required packages
+- Creates the runtime environment
+- Creates the service account
+- Deploys the FastAPI application
+- Deploys the systemd service
+- Deploys the Nginx configuration
+- Deploys the incident catalog
+- Deploys recovery assets
+- Creates operational commands
+- Validates environment health
+
+---
+
+## Usage
+
+Create an incident:
+
+```bash
+sudo incident-start
+```
+
+Review the active incident:
+
+```bash
+incident-reveal
+```
+
+Reset the environment:
+
+```bash
+sudo incident-reset
+```
+
+Remove Incident Lab:
+
+```bash
+sudo incident-lab-uninstall
+```
+
+Only one active incident may exist at a time.
+
+Attempting to start a new incident while another is active will result in:
 
 ```text
-Healthy Environment
-       ↓
-Inject Random Incident
-       ↓
-Display Ticket
-       ↓
-User Investigation
-       ↓
-Incident Review
-       ↓
-Environment Recovery
-       ↓
-Health Verification
+ERROR: Active incident detected.
+
+Run incident-reset before starting a new incident.
 ```
+
+---
+
+## Runtime Layout
+
+Incident Lab is installed as a self-contained application:
+
+```text
+/opt/incident-lab
+├── app
+├── baseline
+├── config
+├── incidents
+├── incident-state
+├── logs
+└── venv
+```
+
+Global commands are exposed through `/usr/local/bin`:
+
+```text
+incident-start
+incident-reveal
+incident-reset
+incident-lab-uninstall
+```
+
+The source repository may be removed after installation.
 
 ---
 
@@ -98,170 +146,56 @@ Every incident follows the same lifecycle:
 ```text
 Healthy Environment
        ↓
-Inject Random Incident
+Inject Incident
        ↓
 Display Ticket
        ↓
-User Investigation
-       ↓
-User Fixes Issue or Gives Up
+Investigation
        ↓
 Incident Review
        ↓
 Environment Reset
        ↓
 Health Verification
-       ↓
-Clear Incident State
 ```
 
 The environment is restored to a known-good state after every exercise.
 
 ---
 
-## Requirements
-
-Version 1 was developed and tested on Debian 13.
-
-Required software:
-
-* nginx
-* python3
-* python3-venv
-* curl
-* systemd
-
-Required Python packages:
-
-* fastapi
-* uvicorn
-
-Prerequisites:
-
-* Nginx configured as a reverse proxy for a FastAPI application
-* FastAPI configured as a systemd service
-* Functional baseline environment before incident injection
-* User capable of executing sudo commands
-
-Incident Lab requires sudo privileges because incidents and recovery operations modify system services and configuration files.
-
----
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/joaoLustosa/incident-lab.git
-cd incident-lab
-```
-
-Ensure the scripts are executable:
-
-```bash
-chmod +x incident-start incident-reveal incident-reset
-```
-
-Incident Lab assumes:
-
-* The scripts are executed from the project root directory
-* Nginx and FastAPI are already configured and operational
-* The baseline configuration stored in the repository matches the local environment
-
----
-
-## Usage
-
-Generate an incident:
-
-```bash
-./incident-start
-```
-
-Example:
-
-```text
-Incident created.
-
-TICKET: Users report 502 Bad Gateway responses.
-```
-
-Review the active incident:
-
-```bash
-./incident-reveal
-```
-
-Reset the environment:
-
-```bash
-./incident-reset
-```
-
-Only one active incident may exist at a time.
-
-Attempting to start a new incident before resetting the environment will result in:
-
-```text
-ERROR: Active incident detected.
-
-Run incident-reset before starting a new incident.
-```
-
----
-
 ## Incident Catalog
 
-### 001 – FastAPI Service Stopped
+### 001 — FastAPI Service Stopped
 
-Difficulty: Easy
+FastAPI is no longer running, causing requests to fail through the application stack.
 
-Learning objectives:
+**Difficulty:** Easy
 
-* Service status verification
-* systemctl usage
-* journalctl usage
+### 002 — Nginx Service Stopped
 
-### 002 – Nginx Service Stopped
+Nginx is no longer running and is unable to serve requests.
 
-Difficulty: Easy
+**Difficulty:** Easy
 
-Learning objectives:
+### 003 — Incorrect Nginx Upstream
 
-* Service availability troubleshooting
-* Service recovery procedures
+Nginx forwards requests to an invalid backend service.
 
-### 003 – Incorrect Nginx Upstream
+**Difficulty:** Medium
 
-Difficulty: Medium
+### 004 — Nginx Syntax Error
 
-Learning objectives:
+The Nginx configuration contains a syntax error that prevents startup.
 
-* Reverse proxy troubleshooting
-* Request flow analysis
-* Configuration inspection
-
-### 004 – Nginx Syntax Error
-
-Difficulty: Medium
-
-Learning objectives:
-
-* Configuration validation
-* nginx -t usage
-* Log analysis
+**Difficulty:** Medium
 
 ---
 
-## Recovery Architecture
+## Recovery Model
 
-Incident Lab does not attempt to reverse individual incidents.
+Incident Lab uses baseline-driven recovery.
 
-Instead, it restores the environment to a known-good state using:
-
-* Baseline configuration files
-* Service restoration
-* Health verification
+Environment restoration does not depend on incident-specific rollback logic.
 
 Recovery workflow:
 
@@ -279,47 +213,42 @@ Clear Incident State
 
 The environment is considered healthy only when:
 
-* Nginx is active
-* FastAPI is active
-* Nginx configuration validates successfully
-* HTTP requests to the application through Nginx return a successful response
+- Nginx is active
+- FastAPI is active
+- Nginx configuration passes validation
+- HTTP requests succeed through Nginx
+
+If recovery validation fails, the active incident remains locked and new incidents cannot be started until the environment is repaired.
 
 ---
 
 ## Project Structure
 
+Repository structure:
+
 ```text
 incident-lab/
 ├── baseline/
-│   └── nginx/
-│       └── default
-│
-├── incident-start
-├── incident-reveal
-├── incident-reset
+│   ├── app/
+│   ├── nginx/
+│   └── systemd/
 │
 ├── incidents/
 │   ├── 001-stop-fastapi/
-│   │   ├── incident.meta
-│   │   └── incident.sh
-│   │
 │   ├── 002-stop-nginx/
-│   │   ├── incident.meta
-│   │   └── incident.sh
-│   │
 │   ├── 003-bad-upstream/
-│   │   ├── incident.meta
-│   │   └── incident.sh
-│   │
 │   └── 004-nginx-syntax-error/
-│       ├── incident.meta
-│       └── incident.sh
 │
-└── incident-state/
-    └── current-incident
+├── incident-start
+├── incident-reset
+├── incident-reveal
+├── healthcheck.sh
+├── install.sh
+├── uninstall.sh
+└── README.md
 ```
 
-Each incident is self-contained:
+Incident format:
 
 ```text
 incident-name/
@@ -327,77 +256,92 @@ incident-name/
 └── incident.meta
 ```
 
-The incident script contains only fault injection logic.
-
-Metadata remains separated from execution logic.
+- `incident.sh` contains fault injection logic.
+- `incident.meta` contains incident metadata used by the review system.
 
 ---
 
-## Baseline Ownership Rule
+## Baseline Ownership
 
 Any resource modified by an incident must have a corresponding healthy version managed by Incident Lab.
 
-The baseline directory serves as the authoritative source of truth for environment recovery.
+The baseline directory is the authoritative source of truth for environment recovery.
 
-This guarantees deterministic restoration and prevents configuration drift as the incident catalog grows.
+Current managed resources:
+
+```text
+baseline/
+├── app/main.py
+├── nginx/incident-lab.conf
+└── systemd/fastapi.service
+```
+
+This model provides deterministic recovery and prevents configuration drift as the incident catalog grows.
 
 ---
 
-## Engineering Decisions
+## Engineering Principles
 
-Key Version 1 design decisions:
+Incident Lab is built around several core design decisions:
 
-* Bash-first implementation
-* Single-host environment
-* Deterministic incidents
-* Metadata-driven incident reviews
-* Active incident locking
-* Authoritative environment reset
-* No dependency on VM snapshots
-
-VM snapshots were evaluated and rejected because they reduce portability and introduce hypervisor dependencies.
-
-The current recovery model works entirely from within the operating system.
+- Bash-first implementation
+- Single-host architecture
+- Metadata-driven incident reviews
+- Deterministic recovery
+- Active incident locking
+- Runtime self-containment
+- Repository-independent operation
+- Baseline-driven restoration
 
 ---
 
 ## Roadmap
 
-### Version 2
+### Milestone 2 — Configuration System
 
-* Expanded incident catalog
-* Automated environment installation
-* Improved portability
-* Shuffle-bag incident selection
+- Centralized configuration file
+- Removal of hardcoded environment values
+- Shared configuration loading
 
-### Version 3
+### Milestone 3 — Incident Framework
 
-* Docker deployment
-* Docker Compose environment provisioning
+- Incident categories
+- Standardized author documentation
+- Improved incident authoring workflow
 
-### Version 4
+### Milestone 4 — Expanded Catalog
 
-* Prometheus integration
-* Grafana integration
-* Observability-focused investigations
+- Permission failures
+- Port conflicts
+- Broken systemd units
+- Missing application files
+- Invalid application paths
 
-### Version 5
+### Milestone 5 — Selection Engine
 
-* Centralized logging
-* Loki
-* Promtail
+- Shuffle-bag incident selection
+- Configurable selection strategies
+
+### Milestone 6 — Release Preparation
+
+- Automated incident validation
+- Full catalog testing
+- Documentation review
+- Version 2 release
 
 ---
 
 ## Current Status
 
-Version 1 provides a complete troubleshooting loop:
+Incident Lab currently provides:
 
-* Random incident generation
-* User investigation
-* Incident review
-* Automatic environment recovery
-* Health verification
-* Repeatable execution
+- Automated environment installation
+- Incident injection
+- Active incident management
+- Metadata-driven reviews
+- Baseline-driven recovery
+- Health verification
+- Repository-independent operation
+- Clean uninstallation
 
-The project serves as a practical Linux troubleshooting laboratory focused on operational investigation and service recovery.
+The project is actively progressing toward the Version 2 release.
