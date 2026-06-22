@@ -115,17 +115,22 @@ cp incident-reveal \
 cp healthcheck.sh \
     /opt/incident-lab/healthcheck.sh
 
+cp uninstall.sh \
+    /opt/incident-lab/uninstall.sh
+
 chmod +x \
     /opt/incident-lab/incident-start \
     /opt/incident-lab/incident-reset \
     /opt/incident-lab/incident-reveal \
-    /opt/incident-lab/healthcheck.sh
+    /opt/incident-lab/healthcheck.sh \
+    /opt/incident-lab/uninstall.sh
 
 chown incident-lab:incident-lab \
     /opt/incident-lab/incident-start \
     /opt/incident-lab/incident-reset \
     /opt/incident-lab/incident-reveal \
-    /opt/incident-lab/healthcheck.sh
+    /opt/incident-lab/healthcheck.sh \
+    /opt/incident-lab/uninstall.sh
 
 echo "[7.5/10] Creating command symlinks..."
 
@@ -140,6 +145,10 @@ ln -sf \
 ln -sf \
     /opt/incident-lab/incident-reveal \
     /usr/local/bin/incident-reveal
+
+ln -sf \
+    /opt/incident-lab/uninstall.sh \
+    /usr/local/bin/incident-lab-uninstall
 
 echo "[8/10] Deploying systemd service..."
 
