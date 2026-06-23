@@ -5,6 +5,10 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+LAB_ROOT="/opt/incident-lab"
+
+source "$LAB_ROOT/config/lab.conf"
+
 set -e
 
 echo "Checking FastAPI service..."
@@ -36,7 +40,7 @@ fi
 
 echo "Performing HTTP health check..."
 
-if curl --fail --silent http://localhost >/dev/null; then
+if curl --fail --silent "$HEALTHCHECK_URL" >/dev/null; then
     echo "PASS"
 else
     echo "FAIL"
