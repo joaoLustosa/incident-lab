@@ -66,6 +66,14 @@ runuser -u incident-lab -- \
     fastapi \
     uvicorn
 
+echo "[7.0/10] Deploying configuration..."
+
+cp config/lab.conf \
+    /opt/incident-lab/config/lab.conf
+
+chown incident-lab:incident-lab \
+    /opt/incident-lab/config/lab.conf
+
 echo "[7.1/10] Deploying application..."
 
 cp baseline/app/main.py \
