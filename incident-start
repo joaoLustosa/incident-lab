@@ -7,6 +7,8 @@ fi
 
 LAB_ROOT="/opt/incident-lab"
 
+source "$LAB_ROOT/config/lab.conf"
+
 STATE_FILE="$LAB_ROOT/incident-state/current-incident"
 INCIDENT_DIR="$LAB_ROOT/incidents"
 
