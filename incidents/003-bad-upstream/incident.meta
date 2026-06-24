@@ -1,5 +1,6 @@
 ID="003"
 TITLE="Incorrect Nginx Upstream"
+CATEGORY="configuration"
 DIFFICULTY="Medium"
 
 TICKET="Users report 502 Bad Gateway responses."

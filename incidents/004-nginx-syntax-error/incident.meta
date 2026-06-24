@@ -1,5 +1,6 @@
 ID="004"
 TITLE="Nginx Syntax Error"
+CATEGORY="configuration"
 DIFFICULTY="Medium"
 
 TICKET="Users report the website is unavailable."

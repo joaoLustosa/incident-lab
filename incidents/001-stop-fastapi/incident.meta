@@ -1,5 +1,6 @@
 ID="001"
 TITLE="FastAPI Service Stopped"
+CATEGORY="service"
 DIFFICULTY="Easy"
 
 TICKET="Users report 502 Bad Gateway responses."
