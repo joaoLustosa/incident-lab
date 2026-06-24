@@ -49,6 +49,8 @@ Example:
 ```bash
 TITLE="FastAPI Service Stopped"
 
+CATEGORY="service"
+
 DIFFICULTY="Easy"
 
 TICKET="Users report the application is unavailable."
@@ -75,6 +77,40 @@ Example:
 ```bash
 TITLE="Nginx Syntax Error"
 ```
+
+---
+
+## CATEGORY
+
+Category of the incident.
+
+Allowed values:
+
+```text
+service
+configuration
+application
+network
+systemd
+```
+
+Example:
+
+```bash
+CATEGORY="service"
+```
+
+Categories are used to group incidents by troubleshooting domain and may be used by future incident selection modes.
+
+### Category Guidelines
+
+| Category | Description |
+|-----------|-------------|
+| service | Service state problems such as stopped or disabled services |
+| configuration | Invalid or incorrect configuration files |
+| application | Application-level failures and runtime errors |
+| network | Connectivity and request routing issues |
+| systemd | Service unit configuration and startup failures |
 
 ---
 
