@@ -42,8 +42,8 @@ fi
 
 echo "Restarting services..."
 
-systemctl reset-failed nginx
-systemctl reset-failed fastapi
+systemctl reset-failed nginx 2>/dev/null || true
+systemctl reset-failed fastapi 2>/dev/null || true
 
 if ! systemctl restart nginx; then
     echo "ERROR: Nginx service start failed."
