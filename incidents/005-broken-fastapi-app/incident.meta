@@ -8,10 +8,10 @@ TICKET="Users report 502 Bad Gateway responses after a recent application update
 ROOT_CAUSE="The deployed FastAPI application contains a Python syntax error."
 
 EXPECTED_FINDINGS="
-- fastapi service failed
+- fastapi service repeatedly restarting
+- fastapi service exits with a Python SyntaxError
 - nginx service active
 - localhost returns 502 Bad Gateway
-- fastapi journal contains a Python SyntaxError
 "
 
 EXPECTED_COMMANDS="
