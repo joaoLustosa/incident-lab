@@ -1,0 +1,24 @@
+ID="007"
+TITLE="Incorrect systemd WorkingDirectory"
+CATEGORY="systemd"
+DIFFICULTY="Medium"
+
+TICKET="Users report the application is unavailable after a recent service configuration change."
+
+ROOT_CAUSE="The FastAPI service is configured with an incorrect WorkingDirectory."
+
+EXPECTED_FINDINGS="
+- fastapi service repeatedly restarting or failed
+- nginx service active
+- localhost returns 502 Bad Gateway
+- journalctl reports 'Could not import module \"main\"'
+- WorkingDirectory points to /opt/incident-lab instead of /opt/incident-lab/app
+"
+
+EXPECTED_COMMANDS="
+- systemctl status fastapi
+- journalctl -u fastapi
+- systemctl cat fastapi
+- cat /etc/systemd/system/fastapi.service
+- curl http://localhost
+"
