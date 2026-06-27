@@ -1,0 +1,26 @@
+ID="006"
+TITLE="FastAPI Listening on Wrong Port"
+CATEGORY="service"
+DIFFICULTY="Medium"
+
+TICKET="Users report 502 Bad Gateway responses after a recent deployment."
+
+ROOT_CAUSE="FastAPI is configured to listen on the wrong TCP port."
+
+EXPECTED_FINDINGS="
+- fastapi service active
+- nginx service active
+- nginx configuration valid
+- localhost returns 502 Bad Gateway
+- FastAPI listening on TCP port 9000
+- Nginx configured to proxy to TCP port 8000
+"
+
+EXPECTED_COMMANDS="
+- systemctl status fastapi
+- systemctl status nginx
+- ss -tlnp
+- curl http://127.0.0.1:9000
+- curl http://localhost
+- cat /etc/systemd/system/fastapi.service
+"
