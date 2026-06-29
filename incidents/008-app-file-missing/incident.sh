@@ -20,7 +20,7 @@ systemctl restart fastapi >/dev/null 2>&1 || true
 
 for i in {1..20}; do
     if journalctl -u fastapi --since "$INJECTION_TIME" --no-pager \
-        | grep -q -E "No such file or directory|ModuleNotFoundError|Error loading ASGI app"; then
+        | grep -q 'Could not import module "main"'; then
         exit 0
     fi
 

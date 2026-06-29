@@ -15,7 +15,7 @@ EXPECTED_FINDINGS="
 - nginx service active
 - localhost returns 502 Bad Gateway
 - main.py missing from /opt/incident-lab/app
-- journal reports file or module loading failure
+- journal reports 'Could not import module \"main\"'
 "
 
 EXPECTED_COMMANDS="
