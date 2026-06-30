@@ -172,7 +172,7 @@ echo "[9/10] Deploying nginx configuration..."
 cp baseline/nginx/incident-lab.conf \
     /etc/nginx/sites-available/incident-lab.conf
 
-rm -f /etc/nginx/sites-enabled/default
+rm -f /etc/nginx/sites-enabled/*
 
 ln -sf \
     /etc/nginx/sites-available/incident-lab.conf \

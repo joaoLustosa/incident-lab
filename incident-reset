@@ -29,7 +29,7 @@ echo "Restoring Nginx configuration..."
 cp "$LAB_ROOT/baseline/nginx/incident-lab.conf" \
    /etc/nginx/sites-available/incident-lab.conf
 
-rm -f /etc/nginx/sites-enabled/incident-lab.conf
+rm -f /etc/nginx/sites-enabled/*
 
 ln -sf \
    /etc/nginx/sites-available/incident-lab.conf \
