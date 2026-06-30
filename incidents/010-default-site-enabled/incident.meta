@@ -1,0 +1,22 @@
+ID="010"
+TITLE="Nginx Default Site Enabled"
+CATEGORY="nginx"
+DIFFICULTY="Medium"
+
+TICKET="Users report the web application displays the default Nginx welcome page instead of the Incident Lab application."
+
+ROOT_CAUSE="The default Nginx site is enabled, overriding the Incident Lab configuration."
+
+EXPECTED_FINDINGS="
+- nginx service active
+- fastapi service active
+- HTTP request returns the default Nginx page
+- default site enabled
+"
+
+EXPECTED_COMMANDS="
+- curl http://localhost
+- systemctl status nginx
+- ls -l /etc/nginx/sites-enabled
+- nginx -T
+"
