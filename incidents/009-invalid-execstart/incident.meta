@@ -10,8 +10,9 @@ ROOT_CAUSE="The FastAPI systemd service references a non-existent executable."
 EXPECTED_FINDINGS="
 - fastapi service failed
 - nginx service active
-- ExecStart references an invalid executable
-- systemd reports executable not found
+- systemd reports status=203/EXEC
+- journal contains 'Unable to locate executable'
+- ExecStart references /opt/incident-lab/venv/bin/uvicornx
 "
 
 EXPECTED_COMMANDS="
