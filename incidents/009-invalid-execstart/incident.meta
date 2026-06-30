@@ -1,0 +1,22 @@
+ID="009"
+TITLE="Invalid ExecStart"
+CATEGORY="systemd"
+DIFFICULTY="Medium"
+
+TICKET="The application is unavailable after a service configuration change."
+
+ROOT_CAUSE="The FastAPI systemd service references a non-existent executable."
+
+EXPECTED_FINDINGS="
+- fastapi service failed
+- nginx service active
+- ExecStart references an invalid executable
+- systemd reports executable not found
+"
+
+EXPECTED_COMMANDS="
+- systemctl status fastapi
+- journalctl -u fastapi
+- systemctl cat fastapi
+- cat /etc/systemd/system/fastapi.service
+"
