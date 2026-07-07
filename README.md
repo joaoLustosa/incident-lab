@@ -139,6 +139,26 @@ The source repository may be removed after installation.
 
 ---
 
+## Configuration
+
+Incident Lab uses a centralized configuration file located at:
+
+```text
+/opt/incident-lab/config/lab.conf
+```
+
+The current configuration defines shared runtime values including:
+
+- FastAPI service name
+- FastAPI port
+- Nginx site name
+- Health check URL
+- Incident selection mode
+
+Operational scripts read this file at runtime, reducing hardcoded environment values. Incident selection mode currently only allows for "random". Shuffle-bag mode will be implemented in a future version.
+
+---
+
 ## Incident Workflow
 
 Every incident follows the same lifecycle:
@@ -165,29 +185,18 @@ The environment is restored to a known-good state after every exercise.
 
 ## Incident Catalog
 
-### 001 — FastAPI Service Stopped
-
-FastAPI is no longer running, causing requests to fail through the application stack.
-
-**Difficulty:** Easy
-
-### 002 — Nginx Service Stopped
-
-Nginx is no longer running and is unable to serve requests.
-
-**Difficulty:** Easy
-
-### 003 — Incorrect Nginx Upstream
-
-Nginx forwards requests to an invalid backend service.
-
-**Difficulty:** Medium
-
-### 004 — Nginx Syntax Error
-
-The Nginx configuration contains a syntax error that prevents startup.
-
-**Difficulty:** Medium
+| ID | Title | Category | Difficulty |
+|----|-------------------------------|---------------|------------|
+|001|FastAPI Service Stopped|Service|Easy|
+|002|Nginx Service Stopped|Service|Easy|
+|003|Incorrect Nginx Upstream|Configuration|Medium|
+|004|Nginx Syntax Error|Configuration|Medium|
+|005|FastAPI Syntax Error|Application|Medium|
+|006|Incorrect FastAPI Port|Configuration|Easy|
+|007|Incorrect systemd WorkingDirectory|Systemd|Medium|
+|008|Missing Application File|Application|Medium|
+|009|Invalid systemd ExecStart|Systemd|Medium|
+|010|Nginx Default Site Enabled|Configuration|Easy|
 
 ---
 
@@ -232,13 +241,9 @@ incident-lab/
 │   ├── app/
 │   ├── nginx/
 │   └── systemd/
-│
+├── config/
 ├── incidents/
-│   ├── 001-stop-fastapi/
-│   ├── 002-stop-nginx/
-│   ├── 003-bad-upstream/
-│   └── 004-nginx-syntax-error/
-│
+├── INCIDENT_AUTHORING.md
 ├── incident-start
 ├── incident-reset
 ├── incident-reveal
@@ -248,7 +253,7 @@ incident-lab/
 └── README.md
 ```
 
-Incident format:
+Each incident follows a standardized structure:
 
 ```text
 incident-name/
@@ -256,8 +261,18 @@ incident-name/
 └── incident.meta
 ```
 
-- `incident.sh` contains fault injection logic.
-- `incident.meta` contains incident metadata used by the review system.
+`incident.sh` contains the fault injection logic.
+
+`incident.meta` defines:
+
+- ID
+- TITLE
+- CATEGORY
+- DIFFICULTY
+- TICKET
+- ROOT_CAUSE
+- EXPECTED_FINDINGS
+- EXPECTED_COMMANDS
 
 ---
 
@@ -287,6 +302,8 @@ Incident Lab is built around several core design decisions:
 - Bash-first implementation
 - Single-host architecture
 - Metadata-driven incident reviews
+- Standardized incident contract
+- Centralized configuration
 - Deterministic recovery
 - Active incident locking
 - Runtime self-containment
@@ -297,37 +314,16 @@ Incident Lab is built around several core design decisions:
 
 ## Roadmap
 
-### Milestone 2 — Configuration System
+Planned improvements include:
 
-- Centralized configuration file
-- Removal of hardcoded environment values
-- Shared configuration loading
-
-### Milestone 3 — Incident Framework
-
-- Incident categories
-- Standardized author documentation
-- Improved incident authoring workflow
-
-### Milestone 4 — Expanded Catalog
-
-- Permission failures
-- Port conflicts
-- Broken systemd units
-- Missing application files
-- Invalid application paths
-
-### Milestone 5 — Selection Engine
-
+- Cloud deployment using Terraform
+- Multi-node troubleshooting environments
 - Shuffle-bag incident selection
-- Configurable selection strategies
-
-### Milestone 6 — Release Preparation
-
-- Automated incident validation
-- Full catalog testing
-- Documentation review
-- Version 2 release
+- Category-based incident filtering
+- Manual incident selection
+- Expanded incident catalog
+- Automated regression testing
+- Support for additional Linux distributions
 
 ---
 
@@ -335,13 +331,13 @@ Incident Lab is built around several core design decisions:
 
 Incident Lab currently provides:
 
-- Automated environment installation
-- Incident injection
-- Active incident management
-- Metadata-driven reviews
+- Automated installation on Debian 13
+- Self-contained runtime environment
+- Centralized configuration
+- Ten troubleshooting incidents
+- Metadata-driven incident reviews
 - Baseline-driven recovery
 - Health verification
+- Standardized incident authoring
 - Repository-independent operation
 - Clean uninstallation
-
-The project is actively progressing toward the Version 2 release.
